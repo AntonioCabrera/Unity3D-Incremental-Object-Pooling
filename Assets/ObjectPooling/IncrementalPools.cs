@@ -84,9 +84,9 @@ public class IncrementalPools : MonoBehaviour
     /// <summary>
     /// Use "PoolTypes.TYPE.ToString()" as poolTag
     /// </summary>
-    public void ReturnObjectToPool(string poolTag, GameObject gameObjectToAdd)
+    public void ReturnObjectToPool(string poolTag, GameObject gameObjectToReturn)
     {
-        pooledObjectQueues[poolTag].Enqueue(gameObjectToAdd);
+        pooledObjectQueues[poolTag].Enqueue(gameObjectToReturn);
 
         IpooledObjectReturn = currentInstance.GetComponent<IPooleableObject>();
         if (IpooledObjectReturn != null)
@@ -94,8 +94,8 @@ public class IncrementalPools : MonoBehaviour
             IpooledObjectReturn.OnReturnToPool();
         }
         IpooledObjectReturn = null;
-
-        gameObjectToAdd.SetActive(false);
+        gameObjectToReturn.transform.SetParent(gameObjectPools[poolTag].PooledObjectParent.transform);
+        gameObjectToReturn.SetActive(false);
     }
 
 
